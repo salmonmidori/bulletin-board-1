@@ -1,0 +1,53 @@
+<div>
+  <div>
+    <h1>
+      <%= @the_board.name %>
+    </h1>
+<hr>
+
+
+<h2>Add a new post</h2>
+<form action="/insert_post" method="post">
+  <div><label for="title">Title</label> <input id="title" name="query_title" type="text"></div>
+  <div><label for="body">Body</label> <textarea id="body" name="query_body"></textarea></div>
+  <div><label for="expires_on">Expires on</label> <input id="expires_on" name="query_expires_on" type="date"></div>
+  <button>Add post</button>
+</form>
+<hr>
+
+<h2>Active posts</h2>
+<table border="1">
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Posted on</th>
+    <th>Expires on</th>
+  </tr>
+  <% @active_posts.each do |active_posts| %>
+    <tr>
+      <td><%= active_post.title %></td>
+      <td><%= active_post.body %></td>
+      <td><%= active_post.created_at.strftime("%b %d, %Y") %></td>
+      <td><%= active_post.expires_on.strftime("%b %d, %Y") %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h2>Expired posts</h2>
+<table border="1">
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Posted on</th>
+    <th>Expires on</th>
+  </tr>
+  <% @expired_posts.each do |expired_post| %>
+    <tr>
+      <td><%= expired_post.title %></td>
+      <td><%= expired_post.body %></td>
+      <td><%= expired_post.created_at.strftime("%b %d, %Y") %></td>
+      <td><%= expired_post.expires_on.strftime("%b %d, %Y") %></td>
+    </tr>
+  <% end %>
+
+</table>
