@@ -8,7 +8,8 @@
 #  updated_at :datetime         not null
 #
 class Board < ApplicationRecord
-  validates(:name, {
+  validates(:name,
+  { 
     :uniqueness => { :message => "has already been taken" },
   })
   has_many(:posts, class_name: "Post", foreign_key: "board_id", primary_key: "id")

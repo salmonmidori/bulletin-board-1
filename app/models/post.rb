@@ -11,4 +11,8 @@
 #  board_id   :integer
 #
 class Post < ApplicationRecord
+  validates(:body,
+  {
+    :presence => { :message => "can't be blank" },
+  })
 end

@@ -11,6 +11,7 @@
   <div><label for="title">Title</label> <input id="title" name="query_title" type="text"></div>
   <div><label for="body">Body</label> <textarea id="body" name="query_body"></textarea></div>
   <div><label for="expires_on">Expires on</label> <input id="expires_on" name="query_expires_on" type="date"></div>
+  <input id="board_id" name="query_board_id" value="<%= @the_board.id %>" type="hidden">
   <button>Add post</button>
 </form>
 <hr>
@@ -23,7 +24,7 @@
     <th>Posted on</th>
     <th>Expires on</th>
   </tr>
-  <% @active_posts.each do |active_posts| %>
+  <% @active_posts.each do |active_post| %>
     <tr>
       <td><%= active_post.title %></td>
       <td><%= active_post.body %></td>
