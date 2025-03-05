@@ -13,7 +13,7 @@
     <h2>
       Add a new board
     </h2>
-
+<% if current_user %>
     <form action="/insert_board" method="post">
       <div>
         <label for="name_box">
@@ -30,12 +30,20 @@
   </div>
 </div>
 
+<% else %>
+<p>  Must be <a href="users/sign_in">signed in</a> to add a new board.</p>
+
+<% end %>
+
 <hr>
 <div>
   <ul>
     <% @list_of_boards.each do |a_board| %>
-      <li><a href="/boards/<%= a_board.id %>"><%= a_board.name %></a></li>
+      <li>
+        <div><a href="/boards/<%= a_board.id %>"><%= a_board.name %></a></div>
+        Owner: <%= a_board.user.email %>
+        <hr>
+      </li>
     <% end %>
   </ul>
 </div>
-  

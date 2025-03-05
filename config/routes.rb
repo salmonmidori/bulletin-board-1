@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :users
   # Routes for the Post resource:
+  root "boards#index"
 
   # CREATE
   post("/insert_post", { :controller => "posts", :action => "create" })

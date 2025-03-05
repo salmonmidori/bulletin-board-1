@@ -18,18 +18,21 @@ class PostsController < ApplicationController
   end
 
   def create
-    board_id = params.fetch("query_board_id")
-    the_post = Post.new
-    the_post.title = params.fetch("query_title")
-    the_post.body = params.fetch("query_body")
-    the_post.expires_on = params.fetch("query_expires_on")
-    the_post.board_id = board_id
+    if current_user
+      board_id = params.fetch("query_board_id")
+      the_post = Post.new
+      the_post.title = params.fetch("query_title")
+      the_post.user_id = current_user.id
+      the_post.body = params.fetch("query_body")
+      the_post.expires_on = params.fetch("query_expires_on")
+      the_post.board_id = board_id
 
-    if the_post.valid?
-      the_post.save
-      redirect_to("/boards/#{board_id}", { :notice => "Post created successfully." })
-    else
-      redirect_to("/boards/#{board_id}", { :alert => the_post.errors.full_messages.to_sentence })
+      if the_post.valid?
+        the_post.save
+        redirect_to("/boards/#{board_id}", { :notice => "Post created successfully." })
+      else
+        redirect_to("/boards/#{board_id}", { :alert => the_post.errors.full_messages.to_sentence })
+      end
     end
   end
 
@@ -56,6 +59,6 @@ class PostsController < ApplicationController
 
     the_post.destroy
 
-    redirect_to("/posts", { :notice => "Post deleted successfully."} )
+    redirect_to("/boards/#{the_post.board.id}", { :notice => "Post deleted successfully."} )
   end
 end

@@ -3,9 +3,11 @@
     <h1>
       <%= @the_board.name %>
     </h1>
-<hr>
 
+  <p>Owner: <%= @the_board.user.email %></p>
+  <hr>
 
+<% if current_user %>
 <h2>Add a new post</h2>
 <form action="/insert_post" method="post">
   <div><label for="title">Title</label> <input id="title" name="query_title" type="text"></div>
@@ -14,6 +16,12 @@
   <input id="board_id" name="query_board_id" value="<%= @the_board.id %>" type="hidden">
   <button>Add post</button>
 </form>
+
+<% else %>
+  <h2>Add a new post</h2>
+  <p>  Must be <a href="users/sign_in">signed in</a> to add a post.</p>
+
+<% end %>
 <hr>
 
 <h2>Active posts</h2>
@@ -21,13 +29,18 @@
   <tr>
     <th>Title</th>
     <th>Body</th>
+    <th>Posted by</th>
     <th>Posted on</th>
     <th>Expires on</th>
   </tr>
   <% @active_posts.each do |active_post| %>
     <tr>
-      <td><%= active_post.title %></td>
+      <td><%= active_post.title %>
+    <% if active_post.user_id == current_user.id %>
+      <a href="/delete_post/<%= active_post.id %>">Delete post</a></td>
+    <% end %>
       <td><%= active_post.body %></td>
+      <td><%= active_post.user.email %></td>
       <td><%= active_post.created_at.strftime("%b %d, %Y") %></td>
       <td><%= active_post.expires_on.strftime("%b %d, %Y") %></td>
     </tr>
@@ -39,6 +52,7 @@
   <tr>
     <th>Title</th>
     <th>Body</th>
+    <th>Posted by</th>
     <th>Posted on</th>
     <th>Expires on</th>
   </tr>
@@ -46,6 +60,7 @@
     <tr>
       <td><%= expired_post.title %></td>
       <td><%= expired_post.body %></td>
+      <td><%= expired_post.user.email %></td>
       <td><%= expired_post.created_at.strftime("%b %d, %Y") %></td>
       <td><%= expired_post.expires_on.strftime("%b %d, %Y") %></td>
     </tr>

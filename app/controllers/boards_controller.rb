@@ -19,16 +19,18 @@ class BoardsController < ApplicationController
   end
 
   def create
-    the_board = Board.new
-    the_board.name = params.fetch("query_name")
+    if current_user
+      the_board = Board.new
+      the_board.name = params.fetch("query_name")
+      the_board.user_id = current_user.id
 
-    if the_board.valid?
-      the_board.save
-      redirect_to("/boards/#{the_board.id}", { :notice => "Board created successfully." })
-    else
-      redirect_to("/boards", { :alert => the_board.errors.full_messages.to_sentence })
+      if the_board.valid?
+        the_board.save
+        redirect_to("/boards/#{the_board.id}", { :notice => "Board created successfully." })
+      else
+        redirect_to("/boards", { :alert => the_board.errors.full_messages.to_sentence })
+      end
     end
-  
   end
 
   def update
@@ -37,12 +39,13 @@ class BoardsController < ApplicationController
 
     the_board.name = params.fetch("query_name")
 
-    if the_board.valid?
+    if the_board.valid? 
       the_board.save
       redirect_to("/boards/#{the_board.id}", { :notice => "Board updated successfully."} )
     else
       redirect_to("/boards/#{the_board.id}", { :alert => the_board.errors.full_messages.to_sentence })
     end
+  
   end
 
   def destroy
